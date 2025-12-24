@@ -1,3 +1,54 @@
+// Define Types (Interfaces)
+export interface Province {
+  id: number;
+  name: string;
+  code: string;
+  students: number;
+}
+
+export interface Course {
+  id: number;
+  title: string;
+  description: string;
+  duration: string;
+  category: string;
+  language: string;
+  level: string;
+  instructor: string;
+  students: number;
+}
+
+export interface Graduate {
+  id: number;
+  name: string;
+  province: string;
+  job: string;
+  company: string;
+  testimonial: string;
+  rating: number;
+  course: string;
+  graduationYear: number;
+}
+
+export interface Teacher {
+  id: number;
+  name: string;
+  qualification: string;
+  experience: string;
+  specialization: string[];
+  bio: string;
+}
+
+export interface Testimonial {
+  id: number;
+  name: string;
+  province: string;
+  text: string;
+  rating: number;
+}
+
+// ... بقیه کدهای قبلی (آرایه provinces, courses و غیره) در پایین این‌ها باقی بماند ...
+
 export const provinces = [
   { id: 1, name: 'Kabul', code: 'KAB', students: 2500 },
   { id: 2, name: 'Herat', code: 'HER', students: 1800 },
