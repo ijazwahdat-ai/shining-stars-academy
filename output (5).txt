@@ -1,0 +1,1072 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  BookOpen, 
+  Award, 
+  Users, 
+  MapPin, 
+  Star, 
+  Globe, 
+  Calendar, 
+  Mail, 
+  Phone, 
+  Facebook, 
+  Twitter, 
+  Instagram, 
+  Linkedin, 
+  Menu, 
+  X, 
+  ChevronRight,
+  Filter,
+  Search,
+  User,
+  Home,
+  GraduationCap,
+  UserCheck,
+  Briefcase,
+  Send,
+  CheckCircle,
+  Star as StarIcon
+} from 'lucide-react';
+
+const App = () => {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [studentCount, setStudentCount] = useState(0);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [filter, setFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [certificateId, setCertificateId] = useState('');
+  const [verificationResult, setVerificationResult] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+    province: ''
+  });
+
+  // Mock data
+  const provinces = [
+    { id: 1, name: 'Kabul', code: 'KAB', students: 2500 },
+    { id: 2, name: 'Herat', code: 'HER', students: 1800 },
+    { id: 3, name: 'Kandahar', code: 'KAN', students: 1600 },
+    { id: 4, name: 'Mazar-e-Sharif', code: 'MAZ', students: 1400 },
+    { id: 5, name: 'Balkh', code: 'BAL', students: 1200 },
+    { id: 6, name: 'Jalalabad', code: 'JAL', students: 1000 },
+    { id: 7, name: 'Ghazni', code: 'GHA', students: 900 },
+    { id: 8, name: 'Kunduz', code: 'KUN', students: 800 },
+    { id: 9, name: 'Paktia', code: 'PAT', students: 700 },
+    { id: 10, name: 'Nangarhar', code: 'NAN', students: 1100 }
+  ];
+
+  const courses = [
+    {
+      id: 1,
+      title: 'Programming Fundamentals',
+      description: 'Learn the basics of programming with Python and JavaScript',
+      duration: '8 weeks',
+      category: 'cs',
+      language: 'Dari',
+      level: 'beginner',
+      instructor: 'Dr. Sultana Rahimi',
+      students: 1250
+    },
+    {
+      id: 2,
+      title: 'Web Development',
+      description: 'Build responsive websites using HTML, CSS, and JavaScript',
+      duration: '12 weeks',
+      category: 'cs',
+      language: 'English',
+      level: 'intermediate',
+      instructor: 'Prof. Layla Karimi',
+      students: 980
+    },
+    {
+      id: 3,
+      title: 'English Language',
+      description: 'Improve your English speaking, reading, and writing skills',
+      duration: '10 weeks',
+      category: 'language',
+      language: 'Dari',
+      level: 'beginner',
+      instructor: 'Ms. Freshta Akbari',
+      students: 1420
+    },
+    {
+      id: 4,
+      title: 'Mobile Development',
+      description: 'Create mobile applications using React Native',
+      duration: '14 weeks',
+      category: 'cs',
+      language: 'English',
+      level: 'intermediate',
+      instructor: 'Dr. Zahra Mohammadi',
+      students: 750
+    },
+    {
+      id: 5,
+      title: 'Data Science',
+      description: 'Analyze data using Python and machine learning techniques',
+      duration: '16 weeks',
+      category: 'cs',
+      language: 'English',
+      level: 'advanced',
+      instructor: 'Dr. Sultana Rahimi',
+      students: 680
+    },
+    {
+      id: 6,
+      title: 'French Language',
+      description: 'Learn French for professional and personal development',
+      duration: '12 weeks',
+      category: 'language',
+      language: 'French',
+      level: 'beginner',
+      instructor: 'Ms. Freshta Akbari',
+      students: 540
+    },
+    {
+      id: 7,
+      title: 'Cybersecurity',
+      description: 'Protect digital systems and data from cyber threats',
+      duration: '10 weeks',
+      category: 'cs',
+      language: 'English',
+      level: 'advanced',
+      instructor: 'Dr. Zahra Mohammadi',
+      students: 420
+    },
+    {
+      id: 8,
+      title: 'Pashto Language',
+      description: 'Enhance your Pashto language skills for professional use',
+      duration: '8 weeks',
+      category: 'language',
+      language: 'Pashto',
+      level: 'intermediate',
+      instructor: 'Prof. Layla Karimi',
+      students: 380
+    }
+  ];
+
+  const graduates = [
+    {
+      id: 1,
+      name: 'Fatima Akbari',
+      province: 'Kabul',
+      job: 'Software Engineer',
+      company: 'Tech Solutions Inc.',
+      testimonial: 'The programming course opened up new career opportunities for me. I now work for a tech company in Kabul.',
+      rating: 5,
+      course: 'Programming Fundamentals',
+      graduationYear: 2022
+    },
+    {
+      id: 2,
+      name: 'Zainab Mohammadi',
+      province: 'Herat',
+      job: 'Data Analyst',
+      company: 'Data Insights Co.',
+      testimonial: 'The data science course helped me develop valuable analytical skills that I now use in my daily work.',
+      rating: 4,
+      course: 'Data Science',
+      graduationYear: 2023
+    },
+    {
+      id: 3,
+      name: 'Maryam Karimi',
+      province: 'Kandahar',
+      job: 'English Teacher',
+      company: 'International School',
+      testimonial: 'The English language course improved my communication skills and helped me secure a teaching position.',
+      rating: 5,
+      course: 'English Language',
+      graduationYear: 2022
+    },
+    {
+      id: 4,
+      name: 'Amina Sadiqi',
+      province: 'Mazar-e-Sharif',
+      job: 'Mobile Developer',
+      company: 'App Innovations',
+      testimonial: 'The mobile development course was exactly what I needed to transition into app development.',
+      rating: 5,
+      course: 'Mobile Development',
+      graduationYear: 2023
+    },
+    {
+      id: 5,
+      name: 'Hawa Nazari',
+      province: 'Balkh',
+      job: 'Freelance Translator',
+      company: 'Self-employed',
+      testimonial: 'Learning French through this academy allowed me to start my own translation business.',
+      rating: 4,
+      course: 'French Language',
+      graduationYear: 2021
+    },
+    {
+      id: 6,
+      name: 'Parwana Ahmadi',
+      province: 'Jalalabad',
+      job: 'Cybersecurity Specialist',
+      company: 'Secure Networks',
+      testimonial: 'The cybersecurity course gave me the knowledge to protect important systems in my organization.',
+      rating: 5,
+      course: 'Cybersecurity',
+      graduationYear: 2023
+    }
+  ];
+
+  const teachers = [
+    {
+      id: 1,
+      name: 'Dr. Sultana Rahimi',
+      qualification: 'PhD in Computer Science',
+      experience: '10 years teaching experience',
+      specialization: ['Programming', 'Web Development', 'Data Science'],
+      bio: 'Expert in programming and data science with extensive industry experience.'
+    },
+    {
+      id: 2,
+      name: 'Prof. Layla Karimi',
+      qualification: 'Masters in English Literature',
+      experience: '8 years teaching experience',
+      specialization: ['English Language', 'French Language', 'Pashto Language'],
+      bio: 'Language specialist with focus on multilingual education.'
+    },
+    {
+      id: 3,
+      name: 'Dr. Zahra Mohammadi',
+      qualification: 'PhD in Data Science',
+      experience: '7 years industry experience',
+      specialization: ['Data Science', 'Cybersecurity', 'Machine Learning'],
+      bio: 'Data science and cybersecurity expert with practical industry knowledge.'
+    },
+    {
+      id: 4,
+      name: 'Ms. Freshta Akbari',
+      qualification: 'Masters in Mobile Development',
+      experience: '5 years development experience',
+      specialization: ['Mobile Development', 'Programming', 'UI/UX Design'],
+      bio: 'Mobile development specialist with a passion for creating user-friendly applications.'
+    }
+  ];
+
+  const testimonials = [
+    {
+      id: 1,
+      name: 'Fatima Akbari',
+      province: 'Kabul',
+      text: 'The programming course opened up new career opportunities for me. I now work for a tech company in Kabul.',
+      rating: 5
+    },
+    {
+      id: 2,
+      name: 'Zainab Mohammadi',
+      province: 'Herat',
+      text: 'The data science course helped me develop valuable analytical skills that I now use in my daily work.',
+      rating: 4
+    },
+    {
+      id: 3,
+      name: 'Maryam Karimi',
+      province: 'Kandahar',
+      text: 'The English language course improved my communication skills and helped me secure a teaching position.',
+      rating: 5
+    },
+    {
+      id: 4,
+      name: 'Amina Sadiqi',
+      province: 'Mazar-e-Sharif',
+      text: 'The mobile development course was exactly what I needed to transition into app development.',
+      rating: 5
+    }
+  ];
+
+  // Simulate student counter
+  useEffect(() => {
+    let count = 0;
+    const interval = setInterval(() => {
+      if (count < 12847) {
+        count += Math.floor(Math.random() * 50) + 1;
+        setStudentCount(count);
+      } else {
+        clearInterval(interval);
+      }
+    }, 30);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  // Auto-rotate testimonials
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  const filteredCourses = courses.filter(course => {
+    const matchesFilter = filter === 'all' || course.category === filter;
+    const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         course.description.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert('Thank you for your message! We will get back to you soon.');
+    setFormData({ name: '', email: '', message: '', province: '' });
+  };
+
+  const handleVerify = () => {
+    setVerificationResult({
+      valid: certificateId.length > 0,
+      message: certificateId.length > 0 ? 'Certificate is valid' : 'Invalid certificate ID'
+    });
+  };
+
+  // Navigation Component
+  const Navigation = () => (
+    <nav className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50 backdrop-blur-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center space-x-2">
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+              <Star className="w-6 h-6 text-white" />
+            </div>
+            <span className="text-xl font-bold text-white">Shining Stars</span>
+          </div>
+
+          <div className="hidden md:flex space-x-8">
+            {[
+              { id: 'home', label: 'Home', icon: Home },
+              { id: 'courses', label: 'Courses', icon: BookOpen },
+              { id: 'certificates', label: 'Certificates', icon: Award },
+              { id: 'about', label: 'About', icon: User },
+              { id: 'graduates', label: 'Graduates', icon: GraduationCap },
+              { id: 'contact', label: 'Contact', icon: Mail }
+            ].map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setCurrentPage(item.id)}
+                className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  currentPage === item.id
+                    ? 'text-blue-400 bg-blue-500/10'
+                    : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                }`}
+              >
+                <item.icon className="w-4 h-4" />
+                <span>{item.label}</span>
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden text-gray-300"
+          >
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-gray-800 border-t border-gray-700">
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            {[
+              { id: 'home', label: 'Home', icon: Home },
+              { id: 'courses', label: 'Courses', icon: BookOpen },
+              { id: 'certificates', label: 'Certificates', icon: Award },
+              { id: 'about', label: 'About', icon: User },
+              { id: 'graduates', label: 'Graduates', icon: GraduationCap },
+              { id: 'contact', label: 'Contact', icon: Mail }
+            ].map((item) => (
+              <button
+                key={item.id}
+                onClick={() => {
+                  setCurrentPage(item.id);
+                  setIsMenuOpen(false);
+                }}
+                className={`flex items-center space-x-2 w-full px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                  currentPage === item.id
+                    ? 'text-blue-400 bg-blue-500/10'
+                    : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                }`}
+              >
+                <item.icon className="w-5 h-5" />
+                <span>{item.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+
+  // Home Page Component
+  const HomePage = () => (
+    <div className="min-h-screen bg-black text-white">
+      {/* Hero Section */}
+      <section className="relative py-20 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            Empowering Afghan Women Through
+            <span className="text-blue-400 block">Digital Education</span>
+          </h1>
+          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            Afghanistan's premier online academy teaching computer science and languages across all 34 provinces
+          </p>
+          
+          <div className="bg-gray-900 rounded-lg p-6 mb-8 inline-block">
+            <p className="text-2xl font-semibold">
+              Serving <span className="text-blue-400">{studentCount.toLocaleString()}</span> students in 
+              <span className="text-purple-400"> 34 provinces</span>
+            </p>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+              onClick={() => setCurrentPage('courses')}
+              className="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            >
+              Explore Courses
+            </button>
+            <button 
+              onClick={() => setCurrentPage('about')}
+              className="px-8 py-3 border-2 border-blue-600 text-blue-400 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-colors"
+            >
+              Learn More
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">Why Choose Us</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 text-center hover:border-blue-400 border border-gray-700 transition-all">
+              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <BookOpen className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Online Courses</h3>
+              <p className="text-gray-300">Access high-quality courses from anywhere in Afghanistan</p>
+            </div>
+            
+            <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 text-center hover:border-purple-400 border border-gray-700 transition-all">
+              <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <User className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Certified Teachers</h3>
+              <p className="text-gray-300">Learn from qualified instructors with industry experience</p>
+            </div>
+            
+            <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 text-center hover:border-green-400 border border-gray-700 transition-all">
+              <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Briefcase className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Job Support</h3>
+              <p className="text-gray-300">Career guidance and job placement assistance</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Afghanistan Map Visualization */}
+      <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-8">Province Coverage</h2>
+          <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 border border-gray-700">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
+              {provinces.map((province) => (
+                <div key={province.id} className="bg-gray-800/50 rounded-lg p-4 text-center">
+                  <div className="w-12 h-12 bg-blue-600 rounded-full mx-auto mb-2 flex items-center justify-center">
+                    <span className="text-white font-bold">{province.id}</span>
+                  </div>
+                  <p className="text-sm">{province.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Courses */}
+      <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">Featured Courses</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {courses.slice(0, 4).map(course => (
+              <div key={course.id} className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-gray-700 hover:border-blue-400 transition-all">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="text-xl font-bold text-white">{course.title}</h3>
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    course.category === 'cs' 
+                      ? 'bg-blue-600 text-white' 
+                      : 'bg-purple-600 text-white'
+                  }`}>
+                    {course.category === 'cs' ? 'CS' : 'Language'}
+                  </span>
+                </div>
+                
+                <p className="text-gray-400 mb-4">{course.description}</p>
+                
+                <div className="flex justify-between text-sm text-gray-500 mb-4">
+                  <span>{course.duration}</span>
+                  <span>{course.language}</span>
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400">{course.students} students</span>
+                  <button className="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    Enroll
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">Student Testimonials</h2>
+          <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 border border-gray-700">
+            <div className="text-center">
+              <div className="flex justify-center mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <StarIcon 
+                    key={i} 
+                    className={`w-5 h-5 ${i < testimonials[currentTestimonial].rating ? 'text-yellow-400' : 'text-gray-600'}`} 
+                    fill="currentColor"
+                  />
+                ))}
+              </div>
+              <p className="text-gray-300 italic mb-4 text-lg">"{testimonials[currentTestimonial].text}"</p>
+              <div>
+                <h3 className="font-bold text-white">{testimonials[currentTestimonial].name}</h3>
+                <p className="text-blue-400">{testimonials[currentTestimonial].province}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+
+  // Courses Page Component
+  const CoursesPage = () => (
+    <div className="min-h-screen bg-black text-white py-20 px-4">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-12">Our Courses</h1>
+        
+        {/* Search and Filter */}
+        <div className="flex flex-col md:flex-row gap-4 mb-12">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search courses..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+          
+          <div className="flex gap-2">
+            <button 
+              onClick={() => setFilter('all')}
+              className={`px-4 py-3 rounded-lg font-semibold transition-colors ${
+                filter === 'all' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              All
+            </button>
+            <button 
+              onClick={() => setFilter('cs')}
+              className={`px-4 py-3 rounded-lg font-semibold transition-colors ${
+                filter === 'cs' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              Computer Science
+            </button>
+            <button 
+              onClick={() => setFilter('language')}
+              className={`px-4 py-3 rounded-lg font-semibold transition-colors ${
+                filter === 'language' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              Languages
+            </button>
+          </div>
+        </div>
+
+        {/* Course Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {filteredCourses.map(course => (
+            <div key={course.id} className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-gray-700 hover:border-blue-400 transition-all">
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-xl font-bold text-white">{course.title}</h3>
+                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                  course.category === 'cs' 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-purple-600 text-white'
+                }`}>
+                  {course.category === 'cs' ? 'CS' : 'Language'}
+                </span>
+              </div>
+              
+              <p className="text-gray-400 mb-4">{course.description}</p>
+              
+              <div className="flex justify-between text-sm text-gray-500 mb-4">
+                <span>{course.duration}</span>
+                <span>{course.language}</span>
+              </div>
+              
+              <div className="flex justify-between text-sm text-gray-500 mb-4">
+                <span>{course.level}</span>
+                <span>{course.instructor}</span>
+              </div>
+              
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">{course.students} students</span>
+                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                  Enroll
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  // Certificates Page Component
+  const CertificatesPage = () => (
+    <div className="min-h-screen bg-black text-white py-20 px-4">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-12">Certificates</h1>
+        
+        {/* Certificate Verification */}
+        <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 mb-12 border border-gray-700">
+          <h2 className="text-2xl font-bold mb-6">Verify Certificate</h2>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <input
+              type="text"
+              value={certificateId}
+              onChange={(e) => setCertificateId(e.target.value)}
+              placeholder="Enter certificate ID"
+              className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <button 
+              onClick={handleVerify}
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            >
+              Verify
+            </button>
+          </div>
+          
+          {verificationResult && (
+            <div className={`mt-4 p-4 rounded-lg ${
+              verificationResult.valid ? 'bg-green-600/20 text-green-400' : 'bg-red-600/20 text-red-400'
+            }`}>
+              {verificationResult.message}
+            </div>
+          )}
+        </div>
+
+        {/* Certificate Sample */}
+        <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 mb-12 border border-gray-700">
+          <h2 className="text-2xl font-bold mb-6">Sample Certificate</h2>
+          <div className="bg-white p-8 rounded-lg shadow-lg">
+            <div className="text-center">
+              <h3 className="text-3xl font-bold text-gray-800 mb-2">Certificate of Completion</h3>
+              <p className="text-gray-600 mb-6">Shining Stars Online Academy</p>
+              <p className="text-xl text-gray-800 mb-2">This certifies that</p>
+              <p className="text-2xl font-bold text-gray-800 mb-2">Fatima Akbari</p>
+              <p className="text-gray-600 mb-6">has successfully completed the</p>
+              <p className="text-xl font-bold text-gray-800 mb-6">Web Development Course</p>
+              <p className="text-gray-600 mb-8">Date: December 15, 2023</p>
+              <div className="flex justify-center">
+                <div className="border border-gray-300 p-2">
+                  <div className="w-32 h-32 bg-gray-200 flex items-center justify-center">
+                    <span className="text-gray-500">QR Code</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Certification Process */}
+        <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 border border-gray-700">
+          <h2 className="text-2xl font-bold mb-6">How to Get Certified</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-gray-800/50 rounded-lg p-6 text-center">
+              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-white font-bold">1</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Complete Course</h3>
+              <p className="text-gray-300">Finish all modules and assignments</p>
+            </div>
+            <div className="bg-gray-800/50 rounded-lg p-6 text-center">
+              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-white font-bold">2</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Pass Exam</h3>
+              <p className="text-gray-300">Achieve 80% or higher on final exam</p>
+            </div>
+            <div className="bg-gray-800/50 rounded-lg p-6 text-center">
+              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-white font-bold">3</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Receive Certificate</h3>
+              <p className="text-gray-300">Get your verified certificate</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // About Page Component
+  const AboutPage = () => (
+    <div className="min-h-screen bg-black text-white py-20 px-4">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-12">About Our Academy</h1>
+        
+        {/* Mission & Vision */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+          <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 border border-gray-700">
+            <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
+            <p className="text-gray-300 leading-relaxed">
+              To empower Afghan women through accessible, high-quality digital education in computer science and languages, 
+              enabling them to build successful careers and contribute to their communities.
+            </p>
+          </div>
+          
+          <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 border border-gray-700">
+            <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
+            <p className="text-gray-300 leading-relaxed">
+              To become the leading provider of online education for Afghan women, fostering a generation of skilled 
+              professionals who drive positive change in Afghanistan.
+            </p>
+          </div>
+        </div>
+
+        {/* Timeline */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-center mb-12">Our Journey</h2>
+          <div className="relative">
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-blue-400"></div>
+            
+            <div className="mb-12 relative">
+              <div className="absolute -left-8 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-blue-400 rounded-full"></div>
+              <div className="ml-12 bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 md:w-1/2 md:ml-1/2 border border-gray-700">
+                <h3 className="text-xl font-bold mb-2">2020 - Foundation</h3>
+                <p className="text-gray-300">Shining Stars Academy was established with a mission to provide accessible education for Afghan women.</p>
+              </div>
+            </div>
+            
+            <div className="mb-12 relative">
+              <div className="absolute -left-8 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-blue-400 rounded-full"></div>
+              <div className="ml-12 bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 md:w-1/2 border border-gray-700">
+                <h3 className="text-xl font-bold mb-2">2021 - Expansion</h3>
+                <p className="text-gray-300">Launched our first computer science and language courses, reaching 1000+ students across 10 provinces.</p>
+              </div>
+            </div>
+            
+            <div className="mb-12 relative">
+              <div className="absolute -left-8 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-blue-400 rounded-full"></div>
+              <div className="ml-12 bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 md:w-1/2 md:ml-1/2 border border-gray-700">
+                <h3 className="text-xl font-bold mb-2">2022 - Growth</h3>
+                <p className="text-gray-300">Expanded to all 34 provinces with over 5000 enrolled students.</p>
+              </div>
+            </div>
+            
+            <div className="relative">
+              <div className="absolute -left-8 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-blue-400 rounded-full"></div>
+              <div className="ml-12 bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 md:w-1/2 border border-gray-700">
+                <h3 className="text-xl font-bold mb-2">2023 - Recognition</h3>
+                <p className="text-gray-300">Received official recognition from the Ministry of Higher Education for our educational excellence.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Teachers */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-center mb-12">Our Teachers</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {teachers.map(teacher => (
+              <div key={teacher.id} className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 text-center border border-gray-700">
+                <div className="w-24 h-24 bg-gray-700 rounded-full mx-auto mb-4 overflow-hidden">
+                  <div className="w-full h-full bg-gray-600 flex items-center justify-center">
+                    <span className="text-white font-bold">{teacher.name.charAt(0)}</span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold mb-2">{teacher.name}</h3>
+                <p className="text-blue-400 mb-2">{teacher.qualification}</p>
+                <p className="text-gray-300 text-sm">{teacher.experience}</p>
+                <p className="text-gray-400 text-sm mt-2">{teacher.specialization.join(', ')}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Recognition */}
+        <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 border border-gray-700">
+          <h2 className="text-2xl font-bold text-center mb-8">Government Recognition</h2>
+          <div className="flex flex-wrap justify-center gap-8">
+            <div className="bg-gray-800/50 rounded-lg p-6 text-center hover:bg-gray-700 transition-colors">
+              <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="font-bold">Ministry of Higher Education</h3>
+              <p className="text-sm text-gray-400">Officially Recognized</p>
+            </div>
+            
+            <div className="bg-gray-800/50 rounded-lg p-6 text-center hover:bg-gray-700 transition-colors">
+              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Award className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="font-bold">Quality Education</h3>
+              <p className="text-sm text-gray-400">Certified Standards</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Graduates Page Component
+  const GraduatesPage = () => (
+    <div className="min-h-screen bg-black text-white py-20 px-4">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-12">Our Graduates</h1>
+        
+        {/* Stats */}
+        <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 mb-12 text-center border border-gray-700">
+          <h2 className="text-3xl font-bold mb-4">Graduate Success</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <p className="text-4xl font-bold text-blue-400">90%</p>
+              <p className="text-gray-300">Job Placement Rate</p>
+            </div>
+            <div>
+              <p className="text-4xl font-bold text-green-400">8,934</p>
+              <p className="text-gray-300">Certified Graduates</p>
+            </div>
+            <div>
+              <p className="text-4xl font-bold text-purple-400">34</p>
+              <p className="text-gray-300">Provinces Represented</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Success Stories */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {graduates.map(grad => (
+            <div key={grad.id} className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-6 border border-gray-700">
+              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-white font-bold text-xl">{grad.name.charAt(0)}</span>
+              </div>
+              <h3 className="text-xl font-bold text-center mb-2">{grad.name}</h3>
+              <p className="text-center text-blue-400 mb-2">{grad.province}</p>
+              <p className="text-gray-300 italic mb-4">"{grad.testimonial}"</p>
+              <div className="flex justify-between items-center">
+                <span className="text-green-400 font-semibold">{grad.job}</span>
+                <span className="text-gray-400">{grad.company}</span>
+              </div>
+              <div className="flex mt-2 justify-center">
+                {[...Array(5)].map((_, i) => (
+                  <StarIcon 
+                    key={i} 
+                    className={`w-5 h-5 ${i < grad.rating ? 'text-yellow-400' : 'text-gray-600'}`} 
+                    fill="currentColor"
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  // Contact Page Component
+  const ContactPage = () => (
+    <div className="min-h-screen bg-black text-white py-20 px-4">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-12">Contact Us</h1>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Contact Form */}
+          <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 border border-gray-700">
+            <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-6">
+                <label htmlFor="name" className="block text-gray-300 mb-2">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  required
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </div>
+              
+              <div className="mb-6">
+                <label htmlFor="email" className="block text-gray-300 mb-2">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  required
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </div>
+              
+              <div className="mb-6">
+                <label htmlFor="province" className="block text-gray-300 mb-2">Province</label>
+                <select
+                  id="province"
+                  value={formData.province}
+                  onChange={(e) => setFormData({...formData, province: e.target.value})}
+                  required
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                >
+                  <option value="">Select your province</option>
+                  {provinces.map(province => (
+                    <option key={province.id} value={province.name}>{province.name}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className="mb-6">
+                <label htmlFor="message" className="block text-gray-300 mb-2">Message</label>
+                <textarea
+                  id="message"
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  required
+                  rows={5}
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                ></textarea>
+              </div>
+              
+              <button 
+                type="submit" 
+                className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center"
+              >
+                <Send className="w-5 h-5 mr-2" />
+                Send Message
+              </button>
+            </form>
+          </div>
+          
+          {/* Contact Information */}
+          <div>
+            <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 mb-8 border border-gray-700">
+              <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
+              
+              <div className="space-y-4 mb-6">
+                <div className="flex items-start">
+                  <MapPin className="h-6 w-6 text-blue-400 mr-3 mt-1" />
+                  <div>
+                    <h3 className="font-semibold">Address</h3>
+                    <p className="text-gray-300">Kabul, Afghanistan</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <Mail className="h-6 w-6 text-blue-400 mr-3 mt-1" />
+                  <div>
+                    <h3 className="font-semibold">Email</h3>
+                    <p className="text-gray-300">info@shiningstars.af</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <Phone className="h-6 w-6 text-blue-400 mr-3 mt-1" />
+                  <div>
+                    <h3 className="font-semibold">Phone</h3>
+                    <p className="text-gray-300">+93 79 123 4567</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <h3 className="font-semibold mb-4">Follow Us</h3>
+                <div className="flex space-x-4">
+                  <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                    <Facebook className="w-5 h-5" />
+                  </a>
+                  <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                    <Twitter className="w-5 h-5" />
+                  </a>
+                  <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                    <Instagram className="w-5 h-5" />
+                  </a>
+                  <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                    <Linkedin className="w-5 h-5" />
+                  </a>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 border border-gray-700">
+              <h2 className="text-2xl font-bold mb-6">Office Hours</h2>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-gray-300">Saturday - Thursday</span>
+                  <span className="text-white">9:00 AM - 5:00 PM</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-300">Friday</span>
+                  <span className="text-white">Closed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Render current page
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'home': return <HomePage />;
+      case 'courses': return <CoursesPage />;
+      case 'certificates': return <CertificatesPage />;
+      case 'about': return <AboutPage />;
+      case 'graduates': return <GraduatesPage />;
+      case 'contact': return <ContactPage />;
+      default: return <HomePage />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-black">
+      <Navigation />
+      {renderPage()}
+    </div>
+  );
+};
+
+export default App;
