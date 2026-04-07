@@ -1,16 +1,29 @@
-**فایل: `src/app/globals.css`**
-```css
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Uncomment and add custom global styles here if needed */
-/* For example, for RTL support on specific languages if not handled by layout.tsx */
-/* 
-html[lang="fa"] body,
-html[lang="ps"] body {
-  @apply font-vazir; 
-} 
-*/
-```
-**نکته:** اگر از فونت فارسی خاصی مثل Vazirmatn در `layout.tsx` استفاده کرده‌اید، ممکن است لازم باشد این فونت را اینجا هم import کنید یا مطمئن شوید که `layout.tsx` به درستی آن را اعمال می‌کند. در کدی که من دادم، فونت `Inter` استفاده شده که گوگل فونت پیش‌فرض Next.js است. اگر فونت فارسی می‌خواهید، آن را در `layout.tsx` و اینجا درست تنظیم کنید.
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Vazirmatn:wght@400;500;700&display=swap');
+
+@layer base {
+  body {
+    @apply bg-black text-white antialiased;
+  }
+}
+
+/* کلاس‌های کمکی برای راست‌چین و چپ‌چین */
+.rtl {
+  direction: rtl;
+}
+
+.ltr {
+  direction: ltr;
+}
+
+/* تنظیم فونت پیش‌فرض برای زبان‌های فارسی/پشتو */
+.font-vazir {
+  font-family: 'Vazirmatn', sans-serif;
+}
+
+.font-sans {
+  font-family: 'Inter', sans-serif;
+}
