@@ -1,53 +1,3 @@
-// Define Types (Interfaces)
-export interface Province {
-  id: number;
-  name: string;
-  code: string;
-  students: number;
-}
-
-export interface Course {
-  id: number;
-  title: string;
-  description: string;
-  duration: string;
-  category: string;
-  language: string;
-  level: string;
-  instructor: string;
-  students: number;
-}
-
-export interface Graduate {
-  id: number;
-  name: string;
-  province: string;
-  job: string;
-  company: string;
-  testimonial: string;
-  rating: number;
-  course: string;
-  graduationYear: number;
-}
-
-export interface Teacher {
-  id: number;
-  name: string;
-  qualification: string;
-  experience: string;
-  specialization: string[];
-  bio: string;
-}
-
-export interface Testimonial {
-  id: number;
-  name: string;
-  province: string;
-  text: string;
-  rating: number;
-}
-
-// ... بقیه کدهای قبلی (آرایه provinces, courses و غیره) در پایین این‌ها باقی بماند ...
 
 export const provinces = [
   { id: 1, name: 'Kabul', code: 'KAB', students: 2500 },
@@ -59,7 +9,31 @@ export const provinces = [
   { id: 7, name: 'Ghazni', code: 'GHA', students: 900 },
   { id: 8, name: 'Kunduz', code: 'KUN', students: 800 },
   { id: 9, name: 'Paktia', code: 'PAT', students: 700 },
-  { id: 10, name: 'Nangarhar', code: 'NAN', students: 1100 }
+  { id: 10, name: 'Nangarhar', code: 'NAN', students: 1100 },
+  { id: 11, name: 'Bamyan', code: 'BAM', students: 600 },
+  { id: 12, name: 'Helmand', code: 'HEL', students: 500 },
+  { id: 13, name: 'Badakhshan', code: 'BAD', students: 450 },
+  { id: 14, name: 'Baghlan', code: 'BAG', students: 400 },
+  { id: 15, name: 'Farah', code: 'FAR', students: 350 },
+  { id: 16, name: 'Faryab', code: 'FYB', students: 300 },
+  { id: 17, name: 'Ghor', code: 'GHO', students: 250 },
+  { id: 18, name: 'Jawzjan', code: 'JWZ', students: 200 },
+  { id: 19, name: 'Khost', code: 'KHO', students: 150 },
+  { id: 20, name: 'Kunar', code: 'KNR', students: 100 },
+  { id: 21, name: 'Laghman', code: 'LAG', students: 90 },
+  { id: 22, name: 'Logar', code: 'LOG', students: 80 },
+  { id: 23, name: 'Nimruz', code: 'NIM', students: 70 },
+  { id: 24, name: 'Nuristan', code: 'NUR', students: 60 },
+  { id: 25, name: 'Paktika', code: 'PKT', students: 50 },
+  { id: 26, name: 'Panjshir', code: 'PAN', students: 40 },
+  { id: 27, name: 'Parwan', code: 'PAR', students: 30 },
+  { id: 28, name: 'Samangan', code: 'SAM', students: 20 },
+  { id: 29, name: 'Sar-e Pol', code: 'SAR', students: 10 },
+  { id: 30, name: 'Takhar', code: 'TAK', students: 5 },
+  { id: 31, name: 'Uruzgan', code: 'URU', students: 4 },
+  { id: 32, name: 'Wardak', code: 'WAR', students: 3 },
+  { id: 33, name: 'Zabul', code: 'ZAB', students: 2 },
+  { id: 34, name: 'Daikundi', code: 'DAI', students: 1 }
 ];
 
 export const courses = [
@@ -287,3 +261,212 @@ export const testimonials = [
     rating: 5
   }
 ];
+
+export type Language = 'en' | 'fa' | 'ps';
+
+export const translations = {
+  en: {
+    academyName: 'Shining Stars Academy',
+    home: 'Home',
+    courses: 'Courses',
+    certificates: 'Certificates',
+    about: 'About',
+    graduates: 'Graduates',
+    contact: 'Contact',
+    heroTitle: 'Empowering Afghan Women Through',
+    heroSubtitle: 'Digital Education',
+    heroDescription: "Afghanistan's premier online academy teaching computer science and languages across all 34 provinces.",
+    serving: 'Serving',
+    studentsIn: 'students in',
+    provinces: 'provinces',
+    exploreCourses: 'Explore Courses',
+    learnMore: 'Learn More',
+    whyChooseUs: 'Why Choose Us',
+    onlineCourses: 'Online Courses',
+    onlineCoursesDesc: 'Access high-quality courses from anywhere in Afghanistan.',
+    certifiedTeachers: 'Certified Teachers',
+    certifiedTeachersDesc: 'Learn from qualified instructors with industry experience.',
+    jobSupport: 'Job Support',
+    jobSupportDesc: 'Career guidance and job placement assistance.',
+    provinceCoverage: 'Province Coverage',
+    featuredCourses: 'Featured Courses',
+    studentTestimonials: 'Student Testimonials',
+    enroll: 'Enroll',
+    searchCourses: 'Search courses...',
+    all: 'All',
+    computerScience: 'Computer Science',
+    languages: 'Languages',
+    verifyCertificate: 'Verify Certificate',
+    enterCertId: 'Enter certificate ID',
+    verify: 'Verify',
+    sampleCertificate: 'Sample Certificate',
+    howToGetCertified: 'How to Get Certified',
+    completeCourse: 'Complete Course',
+    completeCourseDesc: 'Finish all modules and assignments.',
+    passExam: 'Pass Exam',
+    passExamDesc: 'Achieve 80% or higher on final exam.',
+    receiveCertificate: 'Receive Certificate',
+    receiveCertificateDesc: 'Get your verified certificate.',
+    ourMission: 'Our Mission',
+    ourMissionDesc: 'To empower Afghan women through accessible, high-quality digital education in computer science and languages.',
+    ourVision: 'Our Vision',
+    ourVisionDesc: 'To become the leading provider of online education for Afghan women, fostering a generation of skilled professionals.',
+    ourJourney: 'Our Journey',
+    ourTeachers: 'Our Teachers',
+    governmentRecognition: 'Government Recognition',
+    ministryOfEducation: 'Ministry of Higher Education',
+    officiallyRecognized: 'Officially Recognized',
+    sendUsMessage: 'Send Us a Message',
+    name: 'Name',
+    email: 'Email',
+    province: 'Province',
+    message: 'Message',
+    sendMessage: 'Send Message',
+    contactInfo: 'Contact Information',
+    address: 'Address',
+    phone: 'Phone',
+    followUs: 'Follow Us',
+    officeHours: 'Office Hours',
+    graduateSuccess: 'Graduate Success',
+    jobPlacementRate: 'Job Placement Rate',
+    certifiedGraduates: 'Certified Graduates',
+    provincesRepresented: 'Provinces Represented',
+    successStories: 'Success Stories'
+  },
+  fa: {
+    academyName: 'آکادمی ستاره‌های درخشان',
+    home: 'خانه',
+    courses: 'دوره‌ها',
+    certificates: 'گواهینامه‌ها',
+    about: 'درباره ما',
+    graduates: 'فارغ‌التحصیلان',
+    contact: 'تماس با ما',
+    heroTitle: 'توانمندسازی زنان افغان از طریق',
+    heroSubtitle: 'آموزش دیجیتال',
+    heroDescription: 'برترین آکادمی آنلاین افغانستان برای آموزش علوم کامپیوتر و زبان‌ها در تمام ۳۴ ولایت.',
+    serving: 'خدمت‌رسانی به',
+    studentsIn: 'دانشجو در',
+    provinces: 'ولایت',
+    exploreCourses: 'مشاهده دوره‌ها',
+    learnMore: 'بیشتر بدانید',
+    whyChooseUs: 'چرا ما را انتخاب کنید؟',
+    onlineCourses: 'دوره‌های آنلاین',
+    onlineCoursesDesc: 'دسترسی به دوره‌های با کیفیت از هر کجای افغانستان.',
+    certifiedTeachers: 'اساتید مجرب',
+    certifiedTeachersDesc: 'یادگیری از اساتید واجد شرایط با تجربه کاری.',
+    jobSupport: 'حمایت شغلی',
+    jobSupportDesc: 'راهنمایی شغلی و کمک به کاریابی.',
+    provinceCoverage: 'پوشش ولایات',
+    featuredCourses: 'دوره‌های ویژه',
+    studentTestimonials: 'نظرات دانشجویان',
+    enroll: 'ثبت‌نام',
+    searchCourses: 'جستجوی دوره‌ها...',
+    all: 'همه',
+    computerScience: 'علوم کامپیوتر',
+    languages: 'زبان‌ها',
+    verifyCertificate: 'تایید گواهینامه',
+    enterCertId: 'شناسه گواهینامه را وارد کنید',
+    verify: 'تایید',
+    sampleCertificate: 'نمونه گواهینامه',
+    howToGetCertified: 'چگونه گواهینامه بگیریم؟',
+    completeCourse: 'تکمیل دوره',
+    completeCourseDesc: 'تمام ماژول‌ها و تکالیف را به پایان برسانید.',
+    passExam: 'قبولی در امتحان',
+    passExamDesc: 'کسب نمره ۸۰٪ یا بالاتر در امتحان نهایی.',
+    receiveCertificate: 'دریافت گواهینامه',
+    receiveCertificateDesc: 'گواهینامه تایید شده خود را دریافت کنید.',
+    ourMission: 'ماموریت ما',
+    ourMissionDesc: 'توانمندسازی زنان افغان از طریق آموزش دیجیتال با کیفیت در علوم کامپیوتر و زبان‌ها.',
+    ourVision: 'چشم‌انداز ما',
+    ourVisionDesc: 'تبدیل شدن به پیشرو در ارائه آموزش آنلاین برای زنان افغان و پرورش نسلی از متخصصان ماهر.',
+    ourJourney: 'سفر ما',
+    ourTeachers: 'اساتید ما',
+    governmentRecognition: 'تاییدیه دولتی',
+    ministryOfEducation: 'وزارت تحصیلات عالی',
+    officiallyRecognized: 'رسماً تایید شده',
+    sendUsMessage: 'ارسال پیام',
+    name: 'نام',
+    email: 'ایمیل',
+    province: 'ولایت',
+    message: 'پیام',
+    sendMessage: 'ارسال پیام',
+    contactInfo: 'اطلاعات تماس',
+    address: 'آدرس',
+    phone: 'تلفن',
+    followUs: 'ما را دنبال کنید',
+    officeHours: 'ساعات کاری',
+    graduateSuccess: 'موفقیت فارغ‌التحصیلان',
+    jobPlacementRate: 'نرخ اشتغال',
+    certifiedGraduates: 'فارغ‌التحصیلان دارای مدرک',
+    provincesRepresented: 'ولایات تحت پوشش',
+    successStories: 'داستان‌های موفقیت'
+  },
+  ps: {
+    academyName: 'د ځلانده ستورو اکاډمۍ',
+    home: 'کور',
+    courses: 'کورسونه',
+    certificates: 'سندونه',
+    about: 'زموږ په اړه',
+    graduates: 'فارغ شوي',
+    contact: 'اړیکه',
+    heroTitle: 'د افغان میرمنو ځواکمنول د',
+    heroSubtitle: 'ډیجیټل زده کړې له لارې',
+    heroDescription: 'د افغانستان ترټولو غوره آنلاین اکاډمۍ چې په ټولو ۳۴ ولایتونو کې کمپیوټر ساینس او ژبې تدریس کوي.',
+    serving: 'خدمت کول',
+    studentsIn: 'زده کونکو ته په',
+    provinces: 'ولایتونو کې',
+    exploreCourses: 'کورسونه وګورئ',
+    learnMore: 'نور معلومات',
+    whyChooseUs: 'ولې موږ غوره کوئ؟',
+    onlineCourses: 'آنلاین کورسونه',
+    onlineCoursesDesc: 'د افغانستان له هر ځای څخه د لوړ کیفیت کورسونو ته لاسرسی.',
+    certifiedTeachers: 'تصدیق شوي ښوونکي',
+    certifiedTeachersDesc: 'د تجربه لرونکو او وړ ښوونکو څخه زده کړه وکړئ.',
+    jobSupport: 'د دندې ملاتړ',
+    jobSupportDesc: 'د مسلک لارښود او د دندې موندلو کې مرسته.',
+    provinceCoverage: 'د ولایتونو پوښښ',
+    featuredCourses: 'غوره کورسونه',
+    studentTestimonials: 'د زده کونکو نظرونه',
+    enroll: 'نوم لیکنه',
+    searchCourses: 'کورسونه وپلټئ...',
+    all: 'ټول',
+    computerScience: 'کمپیوټر ساینس',
+    languages: 'ژبې',
+    verifyCertificate: 'د سند تایید',
+    enterCertId: 'د سند ID دننه کړئ',
+    verify: 'تایید',
+    sampleCertificate: 'د سند نمونه',
+    howToGetCertified: 'څنګه سند ترلاسه کړو؟',
+    completeCourse: 'کورس بشپړ کړئ',
+    completeCourseDesc: 'ټول ماډلونه او دندې بشپړې کړئ.',
+    passExam: 'ازموینه ورکړئ',
+    passExamDesc: 'په وروستۍ ازموینه کې ۸۰٪ یا لوړې نمرې ترلاسه کړئ.',
+    receiveCertificate: 'سند ترلاسه کړئ',
+    receiveCertificateDesc: 'خپل تایید شوی سند ترلاسه کړئ.',
+    ourMission: 'زموږ ماموریت',
+    ourMissionDesc: 'د کمپیوټر ساینس او ژبو په برخه کې د باکیفیته ډیجیټل زده کړې له لارې د افغان میرمنو ځواکمنول.',
+    ourVision: 'زموږ لیدلوری',
+    ourVisionDesc: 'د افغان میرمنو لپاره د آنلاین زده کړې مخکښ چمتو کونکی کیدل او د ماهرو متخصصینو نسل روزل.',
+    ourJourney: 'زموږ سفر',
+    ourTeachers: 'زموږ ښوونکي',
+    governmentRecognition: 'دولتي تایید',
+    ministryOfEducation: 'د لوړو زده کړو وزارت',
+    officiallyRecognized: 'رسمي تایید شوی',
+    sendUsMessage: 'موږ ته پیغام واستوئ',
+    name: 'نوم',
+    email: 'بریښنالیک',
+    province: 'ولایت',
+    message: 'پیغام',
+    sendMessage: 'پیغام واستوئ',
+    contactInfo: 'د اړیکو معلومات',
+    address: 'پته',
+    phone: 'تلیفون',
+    followUs: 'موږ تعقیب کړئ',
+    officeHours: 'کاري ساعتونه',
+    graduateSuccess: 'د فارغانو بریا',
+    jobPlacementRate: 'د دندې موندلو کچه',
+    certifiedGraduates: 'تصدیق شوي فارغان',
+    provincesRepresented: 'پوښل شوي ولایتونه',
+    successStories: 'د بریا کیسې'
+  }
+};
